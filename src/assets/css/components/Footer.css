@@ -169,3 +169,80 @@
     text-align: left;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Busca la parte de ".footer-brand-section" y reemplaza hasta las redes sociales con esto: */
+
+.footer-brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Nuevo contenedor para los dos logos */
+.footer-logos-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap; /* Para que en móviles muy estrechos no se rompa */
+}
+
+.footer-logo-img {
+  height: 6rem;
+  object-fit: contain;
+}
+
+.secondary-logo {
+  height: 6rem; /* Ajuste opcional para que balancee con el logo principal */
+  opacity: 0.9;
+}
+
+.footer-desc {
+  font-size: 0.875rem;
+  color: rgba(240, 240, 248, 0.5);
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.footer-social-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(240, 240, 248, 0.6);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* El color dinámico viene de la variable --hover-color en el JSX */
+.footer-social-icon:hover {
+  background: color-mix(in srgb, var(--hover-color) 20%, transparent);
+  border-color: var(--hover-color);
+  color: var(--hover-color);
+  transform: translateY(-2px);
+}

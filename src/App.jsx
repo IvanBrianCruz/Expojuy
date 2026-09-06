@@ -16,7 +16,8 @@ import Contacto from './pages/inicio/Contacto';       // La crearemos pronto
 import NotFound from './components/NotFound404';       // Página 404 para enlaces en construcción
 
 // (Opcional) Si luego quieres hacer la vista visual de un Login simulado
-// import Login from './pages/Login';
+import Login from './pages/login/Login';
+import Registro from './pages/login/Registro'; // La crearemos pronto
 
 // ── IMPORTAR ESTILOS GLOBALES ───────────────────────────────────────────────
 import './index.css'; // Asegúrate de que el nombre coincida con tu archivo CSS global
@@ -50,7 +51,8 @@ function App() {
 
 
           {/* (Ejemplo) Si decides agregar un login visual de adorno */}
-          {/* <Route path="/login" element={<Login />} /> */}
+         <Route path="/login" element={<Login />} /> 
+          <Route path="/registro" element={<Registro />} />
 
           {/* ── ERROR 404 ── */}
           {/* Captura cualquier URL que no exista o páginas que aún no armamos */}

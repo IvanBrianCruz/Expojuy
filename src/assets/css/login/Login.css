@@ -1,0 +1,294 @@
+/* =========================================
+   COMPONENTE: LOGIN
+   PREFIJO: login-
+   ========================================= */
+
+.login-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #04040A; /* Un fondo aún más oscuro para resaltar las luces */
+  color: #F0F0F8;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* ── FONDOS Y EFECTOS DE LUZ ── */
+.login-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.login-glow {
+  position: absolute;
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
+  max-height: 600px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.15;
+  animation: loginFloat 10s infinite alternate ease-in-out;
+}
+
+.login-glow-cyan {
+  top: -10%;
+  right: -10%;
+  background-color: #00C8C8;
+}
+
+.login-glow-violet {
+  bottom: -10%;
+  left: -10%;
+  background-color: #8B1FD4;
+  animation-delay: -5s; /* Desfase para que se muevan distinto */
+}
+
+@keyframes loginFloat {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 30px) scale(1.1); }
+}
+
+/* ── BOTÓN VOLVER ── */
+.login-back-btn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(240, 240, 248, 0.6);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+.login-back-btn:hover {
+  color: #00C8C8;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 200, 200, 0.3);
+  transform: translateX(-5px);
+}
+
+.login-back-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ── CONTENEDOR PRINCIPAL ── */
+.login-main-container {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+/* ── TARJETA DE LOGIN ── */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(10, 10, 20, 0.6); /* Fondo semi-transparente */
+  backdrop-filter: blur(20px); /* Efecto cristal */
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 31, 212, 0.2);
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: loginFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes loginFadeInUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.login-card-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.login-logo {
+  height: 4rem;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+}
+
+.login-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #F0F0F8;
+  margin: 0 0 0.5rem 0;
+}
+
+.login-subtitle {
+  font-size: 0.875rem;
+  color: rgba(240, 240, 248, 0.5);
+  margin: 0;
+}
+
+/* ── FORMULARIO ── */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.login-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(240, 240, 248, 0.7);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.login-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-input-icon {
+  position: absolute;
+  left: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgba(240, 240, 248, 0.4);
+  transition: color 0.3s ease;
+  pointer-events: none;
+}
+
+.login-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #F0F0F8;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.login-input::placeholder {
+  color: rgba(240, 240, 248, 0.2);
+}
+
+.login-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 200, 200, 0.5);
+  box-shadow: 0 0 0 4px rgba(0, 200, 200, 0.1);
+}
+
+.login-input:focus + .login-input-icon,
+.login-input:not(:placeholder-shown) + .login-input-icon {
+  color: #00C8C8;
+}
+
+/* Opciones (Olvidaste contraseña) */
+.login-options {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.login-forgot-link {
+  font-size: 0.75rem;
+  color: #A78BFA;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.login-forgot-link:hover {
+  color: #C084FC;
+  text-decoration: underline;
+}
+
+/* Botón Iniciar Sesión */
+.login-submit-btn {
+  background: linear-gradient(135deg, #8B1FD4, #00C8C8);
+  border: none;
+  color: #FFFFFF;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(139, 31, 212, 0.2);
+  margin-top: 0.5rem;
+}
+
+.login-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 31, 212, 0.4);
+}
+
+.login-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ── SECCIÓN CREAR CUENTA ── */
+.login-register-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.login-register-text {
+  font-size: 0.875rem;
+  color: rgba(240, 240, 248, 0.6);
+  margin: 0;
+}
+
+.login-register-link {
+  color: #00C8C8;
+  text-decoration: none;
+  font-weight: 700;
+  margin-left: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.login-register-link:hover {
+  color: #8B1FD4;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 2.5rem 1.5rem;
+  }
+  
+  .login-back-btn {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+}

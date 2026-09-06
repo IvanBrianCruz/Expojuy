@@ -1,4 +1,9 @@
+
+
+// ── Hook de Cuenta Regresiva ──────────────────────────────────────────────────
 import { useState, useEffect, useRef } from "react";
+// Importamos Link de react-router-dom para la navegación
+import { Link } from "react-router-dom";
 // Importamos los componentes globales separados
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -49,7 +54,6 @@ function useIntersectionObserver() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Opcional: dejar de observar una vez que ya apareció
           observer.unobserve(entry.target);
         }
       });
@@ -69,10 +73,8 @@ function useIntersectionObserver() {
 
 
 // ── Datos Estáticos ───────────────────────────────────────────────────────────
-// FECHA CORREGIDA: 9 de Octubre 2026
 const EVENT_DATE = new Date("2026-10-09T10:00:00-03:00");
 
-// FECHAS DE AGENDA CORREGIDAS
 const AGENDA_DAYS = [
   {
     label: "Día 1", date: "9 Oct 2026",
@@ -117,15 +119,14 @@ const AGENDA_DAYS = [
 ];
 
 const NEWS = [
-  { date: "28 Ago 2026", cat: "Expositores", title: "Más de 350 empresas confirmadas para ExpoJuy 2026", excerpt: "La edición 2026 supera todos los registros anteriores con la participación de empresas de 25 países.", img: "https://images.unsplash.com/photo-1781029711493-26385c558e91?w=600&h=400&fit=crop&auto=format" },
-  { date: "15 Ago 2026", cat: "Conferencias", title: "Keynote especial: El rol del litio en la economía global", excerpt: "El Dr. Marcos Villafuerte disertará sobre el posicionamiento estratégico de Jujuy.", img: "https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?w=600&h=400&fit=crop&auto=format" },
-  { date: "5 Ago 2026", cat: "Tecnología", title: "ExpoJuy 2026 estrena plataforma digital de networking", excerpt: "Una nueva app permite coordinar reuniones B2B en tiempo real durante el evento.", img: "https://images.unsplash.com/photo-1782554981060-8549664cc0a8?w=600&h=400&fit=crop&auto=format" },
+  { id: 1, date: "28 Ago 2026", cat: "Expositores", title: "Más de 350 empresas confirmadas para ExpoJuy 2026", excerpt: "La edición 2026 supera todos los registros anteriores con la participación de empresas de 25 países.", img: "https://images.unsplash.com/photo-1781029711493-26385c558e91?w=600&h=400&fit=crop&auto=format" },
+  { id: 2, date: "15 Ago 2026", cat: "Conferencias", title: "Keynote especial: El rol del litio en la economía global", excerpt: "El Dr. Marcos Villafuerte disertará sobre el posicionamiento estratégico de Jujuy.", img: "https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?w=600&h=400&fit=crop&auto=format" },
+  { id: 3, date: "5 Ago 2026", cat: "Tecnología", title: "ExpoJuy 2026 estrena plataforma digital", excerpt: "Una nueva app permite coordinar reuniones B2B en tiempo real durante el evento.", img: "https://images.unsplash.com/photo-1782554981060-8549664cc0a8?w=600&h=400&fit=crop&auto=format" },
 ];
 
 const CAT_COLORS = { Institucional: "rgba(139,31,212,0.2)", Conferencia: "rgba(0,200,200,0.2)", Networking: "rgba(167,139,250,0.2)", Taller: "rgba(99,102,241,0.2)", Social: "rgba(236,72,153,0.2)", Panel: "rgba(20,184,166,0.2)", Concurso: "rgba(245,158,11,0.2)" };
 const CAT_TEXT = { Institucional: "#C084FC", Conferencia: "#00C8C8", Networking: "#A78BFA", Taller: "#818CF8", Social: "#F472B6", Panel: "#2DD4BF", Concurso: "#FBBF24" };
 
-// Datos del carrusel de Fotos
 const photosData = [
   { src: 'https://expojuy.camcomexjujuy.com.ar/build/assets/1-BGVsbHVM.jpg', alt: 'Apertura de expojuy 2026', caption: 'Autoridades de la provincia y representantes de la comunidad.' },
   { src: 'https://expojuy.camcomexjujuy.com.ar/build/assets/2-ClaA1KXV.jpg', alt: 'Titulo de la imagen', caption: 'descripcion de la imagen o parrafo ' },
@@ -177,8 +178,14 @@ function Hero() {
           </p>
 
           <div className="inicio-hero-actions">
-            <button className="inicio-btn-primary">Comprar Entradas</button>
-            <button className="inicio-btn-ghost">Ver Expositores →</button>
+            {/* Redirección a Entradas */}
+            <Link to="/entradas" className="inicio-btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              Comprar Entradas
+            </Link>
+            {/* Redirección a Expositores */}
+            <Link to="/expositores" className="inicio-btn-ghost" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+              Ver Expositores →
+            </Link>
           </div>
 
           <div className="inicio-countdown-wrapper">
@@ -223,7 +230,6 @@ function StatsBar() {
   );
 }
 
-// NUEVO COMPONENTE: Video Épico
 function VideoPromo() {
   const [ref, isVisible] = useIntersectionObserver();
 
@@ -290,12 +296,10 @@ function SobreExpoJuy() {
   );
 }
 
-// NUEVO COMPONENTE: Carrusel Infinito
 function GaleriaInfinita() {
   const [ref, isVisible] = useIntersectionObserver();
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // Duplicamos el array para lograr el efecto infinito sin saltos
   const carruselItems = [...photosData, ...photosData];
 
   return (
@@ -307,7 +311,6 @@ function GaleriaInfinita() {
         </div>
       </div>
 
-      {/* Contenedor del Carrusel */}
       <div className="inicio-carrusel-container">
         <div className="inicio-carrusel-track">
           {carruselItems.map((foto, index) => (
@@ -325,7 +328,6 @@ function GaleriaInfinita() {
         </div>
       </div>
 
-      {/* Modal para ver imagen grande */}
       {selectedImage && (
         <div className="inicio-modal-overlay" onClick={() => setSelectedImage(null)}>
           <div className="inicio-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -388,7 +390,10 @@ function Agenda() {
         </div>
 
         <div className="inicio-text-center" style={{ marginTop: "3rem" }}>
-          <button className="inicio-btn-outline">Ver agenda completa</button>
+          {/* Redirección a Agenda Completa */}
+          <Link to="/agenda" className="inicio-btn-outline" style={{ textDecoration: 'none', display: 'inline-block' }}>
+            Ver agenda completa
+          </Link>
         </div>
       </div>
     </section>
@@ -405,22 +410,28 @@ function Noticias() {
             <span className="inicio-subtitle">Novedades</span>
             <h2 className="inicio-title">Noticias</h2>
           </div>
-          <button href="/noticias" className="inicio-link-cyan">Ver todas →</button>
+          {/* Redirección a sección Noticias */}
+          <Link to="/noticias" className="inicio-link-cyan" style={{ textDecoration: 'none' }}>
+            Ver todas →
+          </Link>
         </div>
         <div className="inicio-news-grid">
           {NEWS.map((n, i) => (
-            <article key={i} className="inicio-news-card">
-              <div className="inicio-news-img-wrap">
-                <img src={n.img} alt={n.title} />
-                <div className="inicio-news-grad" />
-                <span className="inicio-news-cat">{n.cat}</span>
-              </div>
-              <div className="inicio-news-content">
-                <p className="inicio-news-date">{n.date}</p>
-                <h3 className="inicio-news-card-title">{n.title}</h3>
-                <p className="inicio-desc" style={{ marginTop: "0.5rem", marginBottom: "0", fontSize: "0.75rem" }}>{n.excerpt}</p>
-              </div>
-            </article>
+            /* Redirección al detalle de la noticia */
+            <Link to="/noticias/noticia/1" key={n.id || i} style={{ textDecoration: 'none' }}>
+              <article className="inicio-news-card">
+                <div className="inicio-news-img-wrap">
+                  <img src={n.img} alt={n.title} />
+                  <div className="inicio-news-grad" />
+                  <span className="inicio-news-cat">{n.cat}</span>
+                </div>
+                <div className="inicio-news-content">
+                  <p className="inicio-news-date">{n.date}</p>
+                  <h3 className="inicio-news-card-title">{n.title}</h3>
+                  <p className="inicio-desc" style={{ marginTop: "0.5rem", marginBottom: "0", fontSize: "0.75rem", color: "rgba(240, 240, 248, 0.6)" }}>{n.excerpt}</p>
+                </div>
+              </article>
+            </Link>
           ))}
         </div>
       </div>
@@ -456,7 +467,10 @@ function Sponsors() {
           </div>
         ))}
         <div className="inicio-text-center" style={{ marginTop: "3rem" }}>
-          <button className="inicio-btn-primary">Quiero ser patrocinador →</button>
+          {/* Redirección a Contacto */}
+          <Link to="/contacto" className="inicio-btn-primary" style={{ textDecoration: 'none', display: 'inline-block' }}>
+            Quiero ser patrocinador →
+          </Link>
         </div>
       </div>
     </section>

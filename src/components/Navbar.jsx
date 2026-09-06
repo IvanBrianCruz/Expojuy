@@ -47,7 +47,9 @@ export default function Navbar() {
 
         {/* Botones de Acción Desktop */}
         <div className="navbar-actions-desktop">
-          <button className="navbar-btn-login">Ingresar</button>
+          <button className="navbar-btn-login">
+            <a href="/login">Ingresar</a>
+          </button>
           <button className="navbar-btn-buy">Comprar Entradas</button>
         </div>
 
