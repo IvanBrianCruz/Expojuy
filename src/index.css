@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Tokens de Diseño Base */
+  --bg: #07070F;
+  --surface: #0A0A14;
+  --card: rgba(255,255,255,0.03);
+  --card-border: rgba(139,31,212,0.18);
+  --cyan: #00C8C8;
+  --violet: #8B1FD4;
+  --lavender: #A78BFA;
+  --text: #F0F0F8;
+  --muted: rgba(240,240,248,0.5);
+  --faint: rgba(240,240,248,0.25);
+  --grad: linear-gradient(135deg, #8B1FD4, #00C8C8);
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Outfit', sans-serif;
+}
+
+/* ── Reseteos Globales ────────────────────────────────── */
+html, body, #root { height: 100%; margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+body { font-family: var(--font-sans); background: var(--bg); color: var(--text); }
+
+* { scrollbar-width: thin; scrollbar-color: rgba(139, 31, 212, 0.2) transparent; }
+::selection { background: rgba(0, 200, 200, 0.25); color: #f0f0f8; }
+
+/* ── Utilidades Layout ────────────────────────────────── */
+.app-container { min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;}
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
+.container-sm { max-width: 896px; }
+.section { padding: 7rem 1.5rem; }
+.bg-default { background: var(--bg); }
+.bg-surface { background: var(--surface); }
+.text-cyan { color: var(--cyan); }
+.text-lavender { color: var(--lavender); }
+.text-center { text-align: center; }
+.w-full { width: 100%; }
+.mt-xl { margin-top: 3rem; }
+.mt-l { margin-top: 1.5rem; }
+
+/* ── Tipografía Común ─────────────────────────────────── */
+.section-subtitle { display: block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--lavender); margin-bottom: 0.75rem; }
+.section-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--text); margin: 0 0 0.75rem 0; line-height: 1.1; }
+.section-header { text-align: center; margin-bottom: 3.5rem; }
+.section-header p { font-size: 0.875rem; color: var(--muted); max-width: 28rem; margin: 0 auto; }
+

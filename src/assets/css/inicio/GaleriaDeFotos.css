@@ -1,0 +1,311 @@
+/* =========================================
+   COMPONENTE: GALERÍA DE IMÁGENES
+   PREFIJO: galeria-
+   ========================================= */
+
+.galeria-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #07070F;
+  color: #F0F0F8;
+  font-family: 'Inter', sans-serif;
+}
+
+.galeria-main-content {
+  flex: 1;
+  padding-top: 100px; /* Compensa la Navbar */
+  padding-bottom: 6rem;
+}
+
+.galeria-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* ── CABECERA Y BANNER SOCIAL ── */
+.galeria-header-section {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.galeria-subtitle {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #A78BFA;
+  margin-bottom: 1rem;
+}
+
+.galeria-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin: 0 0 3rem 0;
+  line-height: 1.1;
+  color: #F0F0F8;
+}
+
+.galeria-text-cyan {
+  color: #00C8C8;
+}
+
+/* Banner Llamado a la Acción */
+.galeria-social-banner {
+  background: linear-gradient(135deg, rgba(139, 31, 212, 0.1), rgba(0, 200, 200, 0.05));
+  border: 1px dashed rgba(0, 200, 200, 0.3);
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .galeria-social-banner {
+    flex-direction: row;
+    text-align: left;
+    padding: 2rem 3rem;
+  }
+}
+
+.galeria-social-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 0 10px rgba(0, 200, 200, 0.5));
+}
+
+.galeria-social-text h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  color: #F0F0F8;
+  margin: 0 0 0.5rem 0;
+}
+
+.galeria-social-text p {
+  color: rgba(240, 240, 248, 0.7);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.galeria-hashtag {
+  color: #00C8C8;
+  background: rgba(0, 200, 200, 0.1);
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ── GRILLA DE FOTOS ── */
+.galeria-grid-section {
+  padding: 2rem 0;
+}
+
+.galeria-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.25rem;
+}
+
+/* Diseño responsivo de columnas */
+@media (min-width: 640px) {
+  .galeria-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .galeria-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1280px) {
+  .galeria-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Contenedor Individual de Imagen */
+.galeria-grid-item {
+  position: relative;
+  aspect-ratio: 4 / 3; /* Todas las fotos mantienen proporción unificada */
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #0A0A14;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.galeria-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.galeria-grid-item:hover .galeria-img {
+  transform: scale(1.08);
+}
+
+/* Capa de "Ampliar" al hacer Hover */
+.galeria-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 7, 15, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.galeria-grid-item:hover .galeria-img-overlay {
+  opacity: 1;
+}
+
+.galeria-overlay-icon {
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #00C8C8;
+  background: rgba(0, 200, 200, 0.2);
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+  transform: translateY(15px);
+  transition: transform 0.3s ease;
+}
+
+.galeria-grid-item:hover .galeria-overlay-icon {
+  transform: translateY(0);
+}
+
+/* ── LIGHTBOX (Modal Visor de Pantalla Completa) ── */
+.galeria-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: galeriaFadeIn 0.2s ease-out;
+}
+
+@keyframes galeriaFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.galeria-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.galeria-lightbox-close:hover {
+  background: #EF4444;
+}
+
+.galeria-lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 1rem;
+}
+
+.galeria-lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  user-select: none;
+  animation: galeriaPopIn 0.3s ease-out;
+}
+
+@keyframes galeriaPopIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Controles Base del Modal */
+.galeria-lightbox-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.galeria-lightbox-prev,
+.galeria-lightbox-next {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.galeria-lightbox-prev:hover,
+.galeria-lightbox-next:hover {
+  background: #00C8C8;
+  border-color: #00C8C8;
+  transform: scale(1.1);
+}
+
+.galeria-lightbox-counter {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: rgba(240, 240, 248, 0.6);
+  letter-spacing: 0.1em;
+}
+
+/* En PC, ponemos las flechas a los costados de la imagen para que sea más inmersivo */
+@media (min-width: 1024px) {
+  .galeria-lightbox-prev,
+  .galeria-lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .galeria-lightbox-prev:hover,
+  .galeria-lightbox-next:hover {
+    transform: translateY(-50%) scale(1.1); /* Mantiene el Y-center al hacer hover */
+  }
+
+  .galeria-lightbox-prev { left: -5rem; }
+  .galeria-lightbox-next { right: -5rem; }
+}

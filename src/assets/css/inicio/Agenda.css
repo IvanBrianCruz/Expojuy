@@ -1,0 +1,350 @@
+/* =========================================
+   COMPONENTE: AGENDA DE ACTIVIDADES
+   PREFIJO: agenda-
+   ========================================= */
+
+.agenda-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #07070F;
+  color: #F0F0F8;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+.agenda-main-content {
+  flex: 1;
+  padding-top: 80px; /* Compensa la Navbar */
+  padding-bottom: 6rem;
+}
+
+.agenda-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+.agenda-container-sm {
+  max-width: 900px; /* Contenedor más estrecho para la línea de tiempo */
+}
+
+/* ── ANIMACIONES GLOBALES ── */
+.agenda-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.agenda-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── CABECERA ── */
+.agenda-header-section {
+  padding: 5rem 0 4rem 0;
+  text-align: center;
+  background: radial-gradient(circle at top, rgba(0, 200, 200, 0.08) 0%, transparent 70%);
+}
+
+.agenda-subtitle {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #A78BFA;
+  margin-bottom: 1rem;
+}
+
+.agenda-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin: 0 0 1.25rem 0;
+  line-height: 1.1;
+}
+
+.agenda-text-cyan {
+  color: #00C8C8;
+}
+
+.agenda-desc {
+  color: rgba(240, 240, 248, 0.6);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 650px;
+  margin: 0 auto 2.5rem auto;
+}
+
+/* Botón de Descarga PDF */
+.agenda-header-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.agenda-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(139, 31, 212, 0.1);
+  border: 1px solid rgba(139, 31, 212, 0.5);
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px; /* Botón redondeado */
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(139, 31, 212, 0.2);
+}
+
+.agenda-download-btn:hover {
+  background: rgba(139, 31, 212, 0.25);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(139, 31, 212, 0.4);
+}
+
+.agenda-btn-icon {
+  font-size: 1.1rem;
+}
+
+/* ── PESTAÑAS (TABS) ── */
+.agenda-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 4rem;
+}
+
+.agenda-tab-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.3s ease;
+  min-width: 140px;
+}
+
+.agenda-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(0, 200, 200, 0.3);
+}
+
+.agenda-tab-active {
+  background: linear-gradient(135deg, rgba(139, 31, 212, 0.2), rgba(0, 200, 200, 0.2));
+  border-color: #00C8C8;
+  box-shadow: inset 0 0 20px rgba(0, 200, 200, 0.1);
+}
+
+.agenda-tab-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #F0F0F8;
+}
+
+.agenda-tab-active .agenda-tab-label {
+  color: #00C8C8;
+}
+
+.agenda-tab-date {
+  font-size: 0.75rem;
+  color: rgba(240, 240, 248, 0.5);
+  font-weight: 500;
+}
+
+/* ── LÍNEA DE TIEMPO (TIMELINE) ── */
+.agenda-timeline-wrapper {
+  position: relative;
+  padding-left: 1rem;
+}
+
+/* Línea vertical principal */
+.agenda-timeline-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 5rem; /* Ajustado para el diseño responsivo */
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(139, 31, 212, 0.5) 5%, rgba(0, 200, 200, 0.5) 95%, transparent);
+  z-index: 1;
+}
+
+/* Responsivo para móviles (Línea pegada a la izquierda) */
+@media (max-width: 768px) {
+  .agenda-timeline-line {
+    left: 2rem;
+  }
+}
+
+.agenda-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+/* Item de la línea de tiempo */
+.agenda-event-item {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  align-items: stretch;
+}
+
+/* Hora */
+.agenda-event-time {
+  width: 4rem;
+  flex-shrink: 0;
+  text-align: right;
+  padding-top: 1.25rem; /* Alineado con el centro del dot */
+}
+
+.agenda-time-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  color: #00C8C8;
+}
+
+@media (max-width: 768px) {
+  .agenda-event-time {
+    display: none; /* En móviles ocultamos el tiempo lateral y lo ponemos en la tarjeta */
+  }
+}
+
+/* Nodo / Punto */
+.agenda-event-node {
+  width: 2rem;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+}
+
+.agenda-event-dot {
+  width: 14px;
+  height: 14px;
+  background-color: #0A0A14;
+  border: 3px solid #00C8C8;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 200, 200, 0.5);
+  transition: transform 0.3s;
+}
+
+.agenda-event-item:hover .agenda-event-dot {
+  transform: scale(1.3);
+  background-color: #00C8C8;
+}
+
+@media (max-width: 768px) {
+  .agenda-event-node {
+    width: 2.5rem;
+    justify-content: flex-start;
+    padding-left: 0.15rem;
+  }
+}
+
+/* Tarjeta de Evento */
+.agenda-event-card {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-left: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.agenda-event-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: background 0.3s;
+}
+
+.agenda-event-item:hover .agenda-event-card {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(139, 31, 212, 0.3);
+  transform: translateX(5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.agenda-event-item:hover .agenda-event-card::before {
+  background: #8B1FD4;
+}
+
+.agenda-event-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 640px) {
+  .agenda-event-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.agenda-event-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #F0F0F8;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.agenda-event-category {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.agenda-event-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.agenda-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.agenda-detail-icon {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.agenda-detail-text {
+  font-size: 0.875rem;
+  color: rgba(240, 240, 248, 0.6);
+  font-weight: 500;
+}

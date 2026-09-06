@@ -1,0 +1,272 @@
+/* =========================================
+   COMPONENTE: INICIO (SECCIONES EXTRAS Y ANIMACIONES)
+   PREFIJO: inicio-
+   ========================================= */
+
+/* ── Animaciones de Entrada (Fade In Up) ── */
+.inicio-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.inicio-fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Video Épico ── */
+.inicio-video-section {
+  position: relative;
+  width: 100%;
+  height: 70vh; /* Altura del video */
+  min-height: 500px;
+  overflow: hidden;
+  background-color: #050510;
+}
+
+.inicio-video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inicio-video-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+}
+
+.inicio-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 7, 15, 0.6); /* Oscurece el video para que el texto se lea */
+  z-index: 1;
+}
+
+.inicio-video-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 1.5rem;
+}
+
+.inicio-video-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 4px 20px rgba(0, 200, 200, 0.5);
+}
+
+.inicio-video-desc {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: rgba(240, 240, 248, 0.9);
+  line-height: 1.6;
+  font-weight: 300;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+
+/* ── Carrusel Infinito ── */
+.inicio-carrusel-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 2rem 0;
+  position: relative;
+}
+
+/* Efecto de desvanecimiento a los lados */
+.inicio-carrusel-container::before,
+.inicio-carrusel-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+.inicio-carrusel-container::before {
+  left: 0;
+  background: linear-gradient(to right, #0A0A14 0%, transparent 100%);
+}
+.inicio-carrusel-container::after {
+  right: 0;
+  background: linear-gradient(to left, #0A0A14 0%, transparent 100%);
+}
+
+.inicio-carrusel-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  /* Animación CSS infinita */
+  animation: scroll-carrusel 30s linear infinite;
+}
+
+.inicio-carrusel-track:hover {
+  animation-play-state: paused; /* Se detiene al pasar el mouse */
+}
+
+@keyframes scroll-carrusel {
+  0% { transform: translateX(0); }
+  /* Mueve exactamente la mitad del ancho (ya que duplicamos los items en JS) */
+  100% { transform: translateX(calc(-50% - 0.75rem)); } 
+}
+
+.inicio-carrusel-slide {
+  position: relative;
+  width: 300px;
+  height: 220px;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(139,31,212,0.2);
+  transition: transform 0.3s ease;
+}
+
+.inicio-carrusel-slide:hover {
+  transform: translateY(-5px);
+  border-color: #00C8C8;
+}
+
+.inicio-carrusel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inicio-carrusel-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 7, 15, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.inicio-carrusel-slide:hover .inicio-carrusel-overlay {
+  opacity: 1;
+}
+
+.inicio-carrusel-overlay span {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #00C8C8;
+  border-radius: 999px;
+  background: rgba(0, 200, 200, 0.2);
+}
+
+@media (min-width: 768px) {
+  .inicio-carrusel-slide { width: 400px; height: 280px; }
+}
+
+/* Modal del Carrusel */
+.inicio-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeInModal 0.2s ease;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.inicio-modal-content {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  background: #0A0A14;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(139,31,212,0.3);
+}
+
+.inicio-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.inicio-modal-close:hover {
+  background: #00C8C8;
+}
+
+.inicio-modal-img {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  display: block;
+}
+
+.inicio-modal-caption {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+
+/* ── Ubicación Google Maps ── */
+.inicio-map-container {
+  width: 100%;
+  height: 450px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(139, 31, 212, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* Pseudo-elemento para simular el filtro oscuro sobre el mapa */
+.inicio-map-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(139, 31, 212, 0.1); /* Tinte violeta muy sutil */
+  pointer-events: none; /* Permite interactuar con el mapa abajo */
+}
+
+.inicio-google-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}

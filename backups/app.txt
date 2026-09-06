@@ -1,0 +1,634 @@
+import { useState, useEffect } from "react";
+import expojuyLogo from "./imports/expojuy26.png";
+import "./index.css";
+
+// ── Hook de Cuenta Regresiva ──────────────────────────────────────────────────
+
+function useCountdown(target) {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const tick = () => {
+      const diff = target.getTime() - Date.now();
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
+      setTimeLeft({
+        days: Math.floor(diff / 86400000),
+        hours: Math.floor((diff % 86400000) / 3600000),
+        minutes: Math.floor((diff % 3600000) / 60000),
+        seconds: Math.floor((diff % 60000) / 1000),
+      });
+    };
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [target]);
+
+  return timeLeft;
+}
+
+// ── Datos Estáticos ───────────────────────────────────────────────────────────
+
+const EVENT_DATE = new Date("2026-10-15T10:00:00-03:00");
+
+const EXHIBITORS = [
+  { id: 1, name: "TechJuy Solutions", category: "Tecnología", stand: "A-12", desc: "Software de gestión para PyMEs del NOA", icon: "🔷" },
+  { id: 2, name: "Minas del Norte S.A.", category: "Minería", stand: "B-04", desc: "Exploración y extracción responsable de litio", icon: "⛏️" },
+  { id: 3, name: "AgroJuy Exportaciones", category: "Agroindustria", stand: "C-08", desc: "Productores de quinoa, ají y tabaco del NOA", icon: "🌾" },
+  { id: 4, name: "Universidad Nacional de Jujuy", category: "Educación", stand: "D-01", desc: "Innovación académica y transferencia tecnológica", icon: "🎓" },
+  { id: 5, name: "Turismo Serrano", category: "Turismo", stand: "E-15", desc: "Circuitos de ecoturismo en la Puna jujeña", icon: "🏔️" },
+  { id: 6, name: "BioSalud NOA", category: "Salud", stand: "F-03", desc: "Telemedicina y servicios de salud digital", icon: "🏥" },
+  { id: 7, name: "DataCloud Jujuy", category: "Tecnología", stand: "A-22", desc: "Infraestructura cloud para el sector público", icon: "☁️" },
+  { id: 8, name: "Cooperativa Cauchari", category: "Minería", stand: "B-11", desc: "Litio y energía solar en la Puna", icon: "🔋" },
+  { id: 9, name: "Sabores del NOA", category: "Agroindustria", stand: "C-17", desc: "Exportación de productos regionales certificados", icon: "🫙" },
+];
+
+const AGENDA_DAYS = [
+  {
+    label: "Día 1", date: "15 Oct 2026",
+    events: [
+      { time: "09:00", title: "Ceremonia de Apertura", cat: "Institucional", speaker: "Gobernador de Jujuy", location: "Salón Principal" },
+      { time: "10:30", title: "Panel: Economía del Conocimiento", cat: "Conferencia", speaker: "Min. Ciencia y Tecnología", location: "Auditorio A" },
+      { time: "12:00", title: "Ronda de Negocios — Sector Minero", cat: "Networking", speaker: "Cámara Minera", location: "Sala B-4" },
+      { time: "15:00", title: "Workshop: Transformación Digital", cat: "Taller", speaker: "TechJuy Solutions", location: "Sala Workshop" },
+      { time: "17:30", title: "Cóctel de Bienvenida a Expositores", cat: "Social", speaker: "Organización ExpoJuy", location: "Terraza Principal" },
+    ],
+  },
+  {
+    label: "Día 2", date: "16 Oct 2026",
+    events: [
+      { time: "09:30", title: "Conferencia: Litio y Transición Energética", cat: "Conferencia", speaker: "Dr. Marcos Villafuerte", location: "Auditorio A" },
+      { time: "11:00", title: "Mesa Redonda: Agroindustria", cat: "Panel", speaker: "AgroJuy + SENASA", location: "Auditorio B" },
+      { time: "13:00", title: "Ronda de Negocios — Tecnología", cat: "Networking", speaker: "DataCloud + TechJuy", location: "Sala B-4" },
+      { time: "15:30", title: "Taller: Financiamiento PYME", cat: "Taller", speaker: "Banco Nación", location: "Sala Workshop" },
+      { time: "18:00", title: "Presentación: ExpoJuy 2027", cat: "Institucional", speaker: "Cámara de Comercio", location: "Salón Principal" },
+    ],
+  },
+  {
+    label: "Día 3", date: "17 Oct 2026",
+    events: [
+      { time: "10:00", title: "Foro de Jóvenes Emprendedores", cat: "Panel", speaker: "Fundación NOA Digital", location: "Auditorio B" },
+      { time: "11:30", title: "Startup Pitch Competition", cat: "Concurso", speaker: "Jurado InnovaJujuy", location: "Auditorio A" },
+      { time: "14:00", title: "Panel: Turismo Sostenible", cat: "Conferencia", speaker: "Ministerio de Turismo", location: "Auditorio A" },
+      { time: "16:00", title: "Entrega de Premios ExpoJuy 2026", cat: "Institucional", speaker: "Organización", location: "Salón Principal" },
+      { time: "17:30", title: "Ceremonia de Cierre", cat: "Institucional", speaker: "Autoridades", location: "Salón Principal" },
+    ],
+  },
+];
+
+const NEWS = [
+  { date: "28 Ago 2026", cat: "Expositores", title: "Más de 350 empresas confirmadas para ExpoJuy 2026", excerpt: "La edición 2026 supera todos los registros anteriores con la participación de empresas de 25 países.", img: "https://images.unsplash.com/photo-1781029711493-26385c558e91?w=600&h=400&fit=crop&auto=format" },
+  { date: "15 Ago 2026", cat: "Conferencias", title: "Keynote especial: El rol del litio en la economía global", excerpt: "El Dr. Marcos Villafuerte disertará sobre el posicionamiento estratégico de Jujuy.", img: "https://images.unsplash.com/photo-1762968274962-20c12e6e8ecd?w=600&h=400&fit=crop&auto=format" },
+  { date: "5 Ago 2026", cat: "Tecnología", title: "ExpoJuy 2026 estrena plataforma digital de networking", excerpt: "Una nueva app permite coordinar reuniones B2B en tiempo real durante el evento.", img: "https://images.unsplash.com/photo-1782554981060-8549664cc0a8?w=600&h=400&fit=crop&auto=format" },
+];
+
+const FAQ = [
+  { q: "¿Cuándo y dónde se realiza ExpoJuy 2026?", a: "Del 15 al 17 de octubre de 2026 en el Centro de Convenciones Ciudad de Jujuy." },
+  { q: "¿Cómo puedo adquirir mis entradas?", a: "Las entradas se pueden adquirir en esta plataforma o en los puntos de venta habilitados." },
+  { q: "¿Cómo me registro como expositor?", a: "Completá el formulario de contacto o escribinos a expositores@expojuy.com.ar." },
+  { q: "¿ExpoJuy 2026 tiene actividades gratuitas?", a: "El acceso general es gratuito. Las conferencias magistrales requieren inscripción." },
+  { q: "¿Hay estacionamiento disponible?", a: "El predio cuenta con 2.500 lugares de estacionamiento gratuito." },
+];
+
+const CAT_COLORS = { Institucional: "rgba(139,31,212,0.2)", Conferencia: "rgba(0,200,200,0.2)", Networking: "rgba(167,139,250,0.2)", Taller: "rgba(99,102,241,0.2)", Social: "rgba(236,72,153,0.2)", Panel: "rgba(20,184,166,0.2)", Concurso: "rgba(245,158,11,0.2)" };
+const CAT_TEXT = { Institucional: "#C084FC", Conferencia: "#00C8C8", Networking: "#A78BFA", Taller: "#818CF8", Social: "#F472B6", Panel: "#2DD4BF", Concurso: "#FBBF24" };
+const ALL_CATEGORIES = ["Todos", "Tecnología", "Minería", "Agroindustria", "Educación", "Turismo", "Salud"];
+
+const MAP_ZONES = [
+  { id: "A", label: "Zona Tecnología", color: "#00C8C8", x: 5, y: 5, w: 40, h: 28 },
+  { id: "B", label: "Zona Minería", color: "#8B1FD4", x: 55, y: 5, w: 40, h: 28 },
+  { id: "C", label: "Zona Agroindustria", color: "#A78BFA", x: 5, y: 43, w: 25, h: 28 },
+  { id: "D", label: "Zona Salud & Edu", color: "#7C3AED", x: 36, y: 43, w: 25, h: 28 },
+  { id: "E", label: "Zona Turismo", color: "#06B6D4", x: 67, y: 43, w: 28, h: 28 },
+  { id: "AUD", label: "Auditorio Principal", color: "#F0F0F8", x: 25, y: 80, w: 50, h: 14 },
+];
+
+// ── Componentes de la Interfaz ────────────────────────────────────────────────
+
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 48);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  const links = [
+    { label: "Expositores", href: "#expositores" },
+    { label: "Agenda", href: "#agenda" },
+    { label: "Noticias", href: "#noticias" },
+    { label: "Mapa", href: "#mapa" },
+    { label: "Contacto", href: "#contacto" },
+  ];
+
+  return (
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      <div className="container nav-content">
+        <a href="#" className="nav-brand">
+          <img src={expojuyLogo} alt="ExpoJuy 2026" />
+        </a>
+
+        <div className="nav-links">
+          {links.map((l) => (
+            <a key={l.label} href={l.href} className="nav-link">
+              {l.label}
+            </a>
+          ))}
+        </div>
+
+        <div className="nav-actions">
+          <button className="btn btn-outline">Ingresar</button>
+          <button className="btn btn-primary">Comprar Entradas</button>
+        </div>
+
+        <button className="nav-toggle" onClick={() => setOpen(!open)} aria-label="Menú">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {open ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {open && (
+        <div className="mobile-menu">
+          {links.map((l) => (
+            <a key={l.label} href={l.href} className="mobile-link" onClick={() => setOpen(false)}>
+              {l.label}
+            </a>
+          ))}
+          <button className="btn btn-primary w-full">Comprar Entradas</button>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+function Hero() {
+  const t = useCountdown(EVENT_DATE);
+
+  const CountUnit = ({ value, label }) => (
+    <div className="countdown-unit">
+      <div className="count-value">{String(value).padStart(2, "0")}</div>
+      <div className="count-label">{label}</div>
+    </div>
+  );
+
+  return (
+    <section className="hero-section">
+      <div className="hero-backgrounds">
+        <img src="https://images.unsplash.com/photo-1765567972885-9b63d0f6c7db?w=1920&h=1080&fit=crop&auto=format" alt="Montañas Jujuy" />
+        <div className="hero-overlay-1" />
+        <div className="hero-overlay-2" />
+      </div>
+
+      <div className="container hero-content">
+        <div className="hero-inner">
+          <div className="hero-badge">
+            <span className="pulse-dot" />
+            15 · 16 · 17 Octubre 2026 — San Salvador de Jujuy, Argentina
+          </div>
+
+          <h1 className="hero-title">
+            <span>EL POLO</span><br />
+            <span className="text-gradient">PRODUCTIVO</span><br />
+            <span>DEL NORTE</span>
+          </h1>
+
+          <p className="hero-desc">
+            ExpoJuy 2026 reúne a más de <strong className="text-cyan">350 empresas</strong> y <strong className="text-lavender">80.000 visitantes</strong> de 25 países en el evento económico más importante del Norte Argentino.
+          </p>
+
+          <div className="hero-buttons">
+            <button className="btn btn-primary btn-large shadow-glow">Comprar Entradas</button>
+            <button className="btn btn-ghost btn-large">Ver Expositores →</button>
+          </div>
+
+          <div className="countdown-section">
+            <p className="countdown-title">Cuenta Regresiva al Evento</p>
+            <div className="countdown-grid">
+              <CountUnit value={t.days} label="Días" />
+              <span className="count-sep">:</span>
+              <CountUnit value={t.hours} label="Horas" />
+              <span className="count-sep">:</span>
+              <CountUnit value={t.minutes} label="Minutos" />
+              <span className="count-sep">:</span>
+              <CountUnit value={t.seconds} label="Segundos" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatsBar() {
+  const stats = [
+    { value: "+350", label: "Expositores" }, { value: "+80K", label: "Visitantes" },
+    { value: "25+", label: "Países" }, { value: "45.000 m²", label: "Predio" },
+    { value: "3", label: "Días" }, { value: "+60", label: "Conferencias" },
+  ];
+
+  return (
+    <div className="stats-section">
+      <div className="container">
+        <div className="stats-grid">
+          {stats.map((s) => (
+            <div key={s.label} className="stat-item">
+              <div className="stat-value">{s.value}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SobreExpoJuy() {
+  const features = [
+    { icon: "⚡", title: "Innovación", desc: "Hub de startups y tecnología emergente del NOA.", class: "feature-cyan span-2" },
+    { icon: "🔗", title: "Vinculación", desc: "Rondas B2B con empresas latinas.", class: "feature-lavender" },
+    { icon: "🌱", title: "Producción", desc: "Minería, agro y economía verde.", class: "feature-violet" },
+    { icon: "📡", title: "Conocimiento", desc: "+60 conferencias de impacto.", class: "feature-cyan" },
+  ];
+
+  return (
+    <section id="sobre-expojuy" className="section bg-default">
+      <div className="container">
+        <div className="about-grid">
+          <div className="about-text">
+            <span className="section-subtitle">Sobre el Evento</span>
+            <h2 className="section-title">El encuentro que <span className="text-cyan">mueve el Norte</span></h2>
+            <p>ExpoJuy es el evento comercial más importante del Norte Argentino, organizado por la Cámara de Comercio de Jujuy. Desde 2012, conecta a empresas locales, nacionales e internacionales.</p>
+            <p>En 2026 incorpora un ecosistema digital completo, zonas de innovación tecnológica y conferencias de nivel internacional.</p>
+            <div className="tags-flex">
+              <span className="tag tag-cyan">Jujuy, Argentina</span>
+              <span className="tag tag-lavender">14 años de historia</span>
+              <span className="tag tag-violet">NOA Digital Hub</span>
+            </div>
+          </div>
+          <div className="bento-grid">
+            {features.map((f) => (
+              <div key={f.title} className={`bento-card ${f.class}`}>
+                <div className="bento-icon">{f.icon}</div>
+                <div className="bento-title">{f.title}</div>
+                <div className="bento-desc">{f.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Expositores() {
+  const [search, setSearch] = useState("");
+  const [activeCat, setActiveCat] = useState("Todos");
+
+  const filtered = EXHIBITORS.filter((e) => {
+    const q = search.toLowerCase();
+    return (e.name.toLowerCase().includes(q) || e.desc.toLowerCase().includes(q)) &&
+           (activeCat === "Todos" || e.category === activeCat);
+  });
+
+  return (
+    <section id="expositores" className="section bg-surface">
+      <div className="container">
+        <div className="section-header">
+          <span className="section-subtitle">Directorio</span>
+          <h2 className="section-title">Expositores 2026</h2>
+          <p>Descubrí las empresas e instituciones que forman parte de la expo.</p>
+        </div>
+
+        <div className="search-wrapper">
+          <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar expositor, rubro, producto..." className="search-input" />
+        </div>
+
+        <div className="filters-container">
+          {ALL_CATEGORIES.map((cat) => (
+            <button key={cat} onClick={() => setActiveCat(cat)} className={`filter-btn ${activeCat === cat ? "active" : ""}`}>
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="exhibitors-grid">
+          {filtered.map((e) => (
+            <div key={e.id} className="exhibitor-card">
+              <div className="card-header">
+                <div className="card-icon">{e.icon}</div>
+                <div className="card-info">
+                  <div className="card-title">{e.name}</div>
+                  <div className="card-badges">
+                    <span className="badge-cat">{e.category}</span>
+                    <span className="badge-stand">{e.stand}</span>
+                  </div>
+                  <p className="card-desc">{e.desc}</p>
+                </div>
+              </div>
+              <div className="card-footer">
+                <span className="footer-stand">Stand {e.stand}</span>
+                <span className="footer-link">Ver perfil →</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {filtered.length === 0 && <p className="no-results">No se encontraron expositores.</p>}
+        <div className="text-center mt-xl"><button className="btn btn-ghost">Ver todos los expositores (350+)</button></div>
+      </div>
+    </section>
+  );
+}
+
+function Agenda() {
+  const [dayIdx, setDayIdx] = useState(0);
+  const day = AGENDA_DAYS[dayIdx];
+
+  return (
+    <section id="agenda" className="section bg-default">
+      <div className="container container-sm">
+        <div className="section-header">
+          <span className="section-subtitle">Programación</span>
+          <h2 className="section-title">Agenda de Actividades</h2>
+        </div>
+
+        <div className="agenda-tabs">
+          {AGENDA_DAYS.map((d, i) => (
+            <button key={d.label} onClick={() => setDayIdx(i)} className={`tab-btn ${dayIdx === i ? "active" : ""}`}>
+              <div>{d.label}</div>
+              <div className="tab-date">{d.date}</div>
+            </button>
+          ))}
+        </div>
+
+        <div className="timeline-wrapper">
+          <div className="timeline-line" />
+          <div className="timeline-events">
+            {day.events.map((ev, i) => (
+              <div key={i} className="event-item">
+                <div className="event-time">{ev.time}</div>
+                <div className="event-dot-wrapper"><div className="event-dot" /></div>
+                <div className="event-card">
+                  <div className="event-header">
+                    <h3 className="event-title">{ev.title}</h3>
+                    <span className="event-cat" style={{ background: CAT_COLORS[ev.cat], color: CAT_TEXT[ev.cat], borderColor: CAT_TEXT[ev.cat]+"30" }}>{ev.cat}</span>
+                  </div>
+                  <div className="event-details">
+                    <span>🎤 {ev.speaker}</span>
+                    <span>📍 {ev.location}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Noticias() {
+  return (
+    <section id="noticias" className="section bg-surface">
+      <div className="container">
+        <div className="news-header">
+          <div>
+            <span className="section-subtitle">Novedades</span>
+            <h2 className="section-title">Noticias</h2>
+          </div>
+          <button className="link-cyan">Ver todas →</button>
+        </div>
+        <div className="news-grid">
+          {NEWS.map((n, i) => (
+            <article key={i} className="news-card">
+              <div className="news-img-wrapper">
+                <img src={n.img} alt={n.title} />
+                <div className="news-gradient" />
+                <span className="news-cat">{n.cat}</span>
+              </div>
+              <div className="news-content">
+                <p className="news-date">{n.date}</p>
+                <h3 className="news-title">{n.title}</h3>
+                <p className="news-excerpt">{n.excerpt}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MapaPredio() {
+  const [hovered, setHovered] = useState(null);
+
+  return (
+    <section id="mapa" className="section bg-default">
+      <div className="container">
+        <div className="section-header">
+          <span className="section-subtitle">Orientación</span>
+          <h2 className="section-title">Mapa del Predio</h2>
+          <p>45.000 m² organizados en zonas temáticas.</p>
+        </div>
+
+        <div className="map-grid-layout">
+          <div className="map-svg-container">
+            <div className="map-svg-inner">
+              <svg className="map-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                {[10, 20, 30, 40, 50, 60, 70, 80, 90].map((v) => <line key={`h${v}`} x1="0" y1={v} x2="100" y2={v} stroke="rgba(139,31,212,0.07)" strokeWidth="0.4" />)}
+                {[10, 20, 30, 40, 50, 60, 70, 80, 90].map((v) => <line key={`g${v}`} x1={v} y1="0" x2={v} y2="100" stroke="rgba(139,31,212,0.07)" strokeWidth="0.4" />)}
+                <rect x="5" y="37" width="90" height="4" fill="rgba(240,240,248,0.03)" rx="0.5" />
+                <rect x="47" y="5" width="4" height="89" fill="rgba(240,240,248,0.03)" rx="0.5" />
+                {MAP_ZONES.map((z) => {
+                  const active = hovered === z.id;
+                  return (
+                    <g key={z.id} onMouseEnter={() => setHovered(z.id)} onMouseLeave={() => setHovered(null)} style={{ cursor: "pointer" }}>
+                      <rect x={z.x} y={z.y} width={z.w} height={z.h} rx="1.5" fill={active ? z.color : z.color + "1A"} stroke={z.color} strokeWidth={active ? 0.8 : 0.5} style={{ transition: "all 0.2s" }} />
+                      <text x={z.x + z.w / 2} y={z.y + z.h / 2} textAnchor="middle" dominantBaseline="middle" fill={active ? "#08081A" : z.color} fontSize={z.id === "AUD" ? "3" : "3.5"} fontWeight="bold" fontFamily="Outfit, sans-serif" style={{ pointerEvents: "none" }}>{z.id}</text>
+                    </g>
+                  );
+                })}
+              </svg>
+            </div>
+          </div>
+
+          <div className="map-legend">
+            <p className="legend-title">Zonas del Predio</p>
+            <div className="legend-list">
+              {MAP_ZONES.map((z) => (
+                <div key={z.id} className={`legend-item ${hovered === z.id ? "active" : ""}`} style={{ '--z-color': z.color }} onMouseEnter={() => setHovered(z.id)} onMouseLeave={() => setHovered(null)}>
+                  <div className="legend-icon" style={{ background: z.color + "1A", color: z.color }}>{z.id}</div>
+                  <span className="legend-label">{z.label}</span>
+                </div>
+              ))}
+            </div>
+            <button className="btn btn-ghost w-full mt-l">Descargar Plano PDF</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Sponsors() {
+  const tiers = [{ name: "Oro", color: "#F59E0B", count: 3, h: 80 }, { name: "Plata", color: "#94A3B8", count: 5, h: 64 }, { name: "Bronce", color: "#C08B5C", count: 6, h: 52 }];
+
+  return (
+    <section id="sponsors" className="section bg-surface">
+      <div className="container">
+        <div className="section-header">
+          <span className="section-subtitle">Patrocinadores</span>
+          <h2 className="section-title">Sponsors 2026</h2>
+        </div>
+        {tiers.map((tier) => (
+          <div key={tier.name} className="sponsor-tier">
+            <div className="tier-header">
+              <div className="tier-line" style={{ background: `linear-gradient(to right, ${tier.color}40, transparent)` }} />
+              <span className="tier-badge" style={{ color: tier.color, borderColor: tier.color + "30", background: tier.color + "10" }}>{tier.name}</span>
+              <div className="tier-line" style={{ background: `linear-gradient(to left, ${tier.color}40, transparent)` }} />
+            </div>
+            <div className="sponsor-grid" style={{ gridTemplateColumns: `repeat(${tier.count}, 1fr)` }}>
+              {Array.from({ length: tier.count }).map((_, i) => (
+                <div key={i} className="sponsor-card" style={{ borderColor: tier.color + "1F", height: `${tier.h}px` }}>
+                  <span style={{ color: tier.color + "50" }}>LOGO</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="text-center mt-xl"><button className="btn btn-primary btn-large shadow-glow">Quiero ser patrocinador →</button></div>
+      </div>
+    </section>
+  );
+}
+
+function ContactoFAQ() {
+  const [openFAQ, setOpenFAQ] = useState(null);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  return (
+    <section id="contacto" className="section bg-default">
+      <div className="container">
+        <div className="section-header">
+          <span className="section-subtitle">Contacto</span>
+          <h2 className="section-title">Hablemos</h2>
+        </div>
+        <div className="contact-layout">
+          <div className="contact-form-card">
+            <h3>Contactanos</h3>
+            <p className="form-desc">Para consultas sobre expositores y stands.</p>
+            {sent ? (
+              <div className="success-msg">
+                <div className="icon">✅</div>
+                <h4>Mensaje enviado</h4>
+                <p>Te contactaremos en las próximas 48 horas.</p>
+              </div>
+            ) : (
+              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="form">
+                <div className="input-group">
+                  <label>Nombre completo</label>
+                  <input type="text" placeholder="Tu nombre" required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                </div>
+                <div className="input-group">
+                  <label>Email</label>
+                  <input type="email" placeholder="tu@empresa.com" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                </div>
+                <div className="input-group">
+                  <label>Mensaje</label>
+                  <textarea rows="4" placeholder="En qué podemos ayudarte..." required value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+                </div>
+                <button type="submit" className="btn btn-primary w-full">Enviar Mensaje</button>
+              </form>
+            )}
+          </div>
+          <div className="faq-section">
+            <h3>Preguntas Frecuentes</h3>
+            <div className="faq-list">
+              {FAQ.map((item, i) => (
+                <div key={i} className={`faq-item ${openFAQ === i ? "open" : ""}`}>
+                  <button className="faq-q" onClick={() => setOpenFAQ(openFAQ === i ? null : i)}>
+                    <span>{item.q}</span>
+                    <svg className="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                  </button>
+                  {openFAQ === i && <div className="faq-a">{item.a}</div>}
+                </div>
+              ))}
+            </div>
+            <div className="faq-help">
+              <div className="help-title">¿No encontrás tu respuesta?</div>
+              <div className="help-desc">Escribinos a <span className="text-cyan">info@expojuy.com.ar</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  const cols = {
+    Evento: ["Sobre ExpoJuy", "Agenda", "Mapa del Predio", "Comprar Entradas"],
+    Participar: ["Ser Expositor", "Patrocinadores", "Prensa", "Acreditaciones"],
+    Info: ["Contacto", "Preguntas Frecuentes", "Politicas", "Accesibilidad"],
+  };
+
+  return (
+    <footer className="footer">
+      <div className="container">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <img src={expojuyLogo} alt="ExpoJuy 2026" />
+            <p>Organizado por la Cámara de Comercio de Jujuy. El polo productivo del Norte Argentino desde 2012.</p>
+            <div className="social-links">
+              {["fb", "li", "ig", "yt"].map((s) => <div key={s} className="social-icon">{s}</div>)}
+            </div>
+          </div>
+          {Object.entries(cols).map(([title, links]) => (
+            <div key={title} className="footer-col">
+              <h4>{title}</h4>
+              <ul>{links.map((l) => <li key={l}><a href="#">{l}</a></li>)}</ul>
+            </div>
+          ))}
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 ExpoJuy — Cámara de Comercio de Jujuy.</span>
+          <div className="status"><span className="dot" /> Plataforma en vivo</div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="app-container">
+      <Navbar />
+      <Hero />
+      <StatsBar />
+      <SobreExpoJuy />
+      <Expositores />
+      <Agenda />
+      <Noticias />
+      <MapaPredio />
+      <Sponsors />
+      <ContactoFAQ />
+      <Footer />
+    </div>
+  );
+}
