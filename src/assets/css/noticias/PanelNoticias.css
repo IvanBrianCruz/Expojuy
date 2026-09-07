@@ -1,0 +1,269 @@
+/* =========================================
+   COMPONENTE: PANEL NOTICIAS (ADMIN)
+   PREFIJO: panel-noticias-
+   ========================================= */
+
+.panel-noticias-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #04040A;
+  color: #F0F0F8;
+  font-family: 'Inter', sans-serif;
+}
+
+.panel-noticias-main {
+  flex: 1;
+  padding-top: 3rem;
+  padding-bottom: 6rem;
+}
+
+.panel-noticias-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* ── CABECERA ── */
+.panel-noticias-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (min-width: 768px) {
+  .panel-noticias-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.panel-noticias-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  color: #F0F0F8;
+}
+
+.panel-noticias-text-cyan {
+  color: #00C8C8;
+}
+
+.panel-noticias-desc {
+  color: rgba(240, 240, 248, 0.6);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 600px;
+}
+
+/* Botón Crear Noticia */
+.panel-noticias-btn-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #8B1FD4, #00C8C8);
+  color: #FFF;
+  text-decoration: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(139, 31, 212, 0.2);
+  white-space: nowrap;
+}
+
+.panel-noticias-btn-create:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(139, 31, 212, 0.4);
+}
+
+.panel-noticias-btn-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ── GRILLA DE NOTICIAS ── */
+.panel-noticias-grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .panel-noticias-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .panel-noticias-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── TARJETA DE NOTICIA ── */
+.panel-noticias-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.panel-noticias-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 31, 212, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.panel-noticias-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.panel-noticias-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.panel-noticias-card:hover img {
+  transform: scale(1.05);
+}
+
+.panel-noticias-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 4, 10, 0.9) 0%, transparent 60%);
+}
+
+.panel-noticias-cat-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(139, 31, 212, 0.9);
+  color: #fff;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.panel-noticias-card-content {
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.panel-noticias-date {
+  font-size: 0.75rem;
+  color: rgba(167, 139, 250, 0.6);
+  margin: 0 0 0.75rem 0;
+}
+
+.panel-noticias-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.3;
+  color: #F0F0F8;
+}
+
+.panel-noticias-excerpt {
+  font-size: 0.875rem;
+  color: rgba(240, 240, 248, 0.6);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ── BARRA DE ACCIONES ADMIN ── */
+.panel-noticias-card-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.panel-noticias-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.75rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.panel-noticias-action-btn:last-child {
+  border-right: none;
+}
+
+/* Colores específicos para cada acción */
+.panel-noticias-action-btn.view {
+  color: #00C8C8;
+}
+.panel-noticias-action-btn.view:hover {
+  background: rgba(0, 200, 200, 0.1);
+}
+
+.panel-noticias-action-btn.edit {
+  color: #A78BFA;
+}
+.panel-noticias-action-btn.edit:hover {
+  background: rgba(167, 139, 250, 0.1);
+}
+
+.panel-noticias-action-btn.delete {
+  color: #EF4444;
+}
+.panel-noticias-action-btn.delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── ESTADO VACÍO ── */
+.panel-noticias-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+.panel-noticias-empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.panel-noticias-empty h3 {
+  font-family: 'Outfit', sans-serif;
+  color: #F0F0F8;
+  margin: 0 0 0.5rem 0;
+}
+
+.panel-noticias-empty p {
+  color: rgba(240, 240, 248, 0.5);
+  font-size: 0.9rem;
+}

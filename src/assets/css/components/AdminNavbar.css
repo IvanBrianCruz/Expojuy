@@ -1,0 +1,208 @@
+/* =========================================
+   COMPONENTE: NAVBAR PANEL ADMINISTRATIVO
+   PREFIJO: admin-navbar-
+   ========================================= */
+
+.admin-navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  background: rgba(10, 10, 20, 0.95);
+  border-bottom: 1px solid rgba(139, 31, 212, 0.2);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ── LOGO ── */
+.admin-navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.admin-navbar-logo {
+  height: 4.5rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
+  transition: transform 0.2s ease;
+}
+
+.admin-navbar-logo:hover {
+  transform: scale(1.05);
+}
+
+/* ── ENLACES CENTRALES ── */
+.admin-navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-navbar-link {
+  color: rgba(240, 240, 248, 0.6);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.2s, text-shadow 0.2s;
+  padding: 0.5rem 0;
+}
+
+.admin-navbar-link:hover {
+  color: #00C8C8;
+  text-shadow: 0 0 10px rgba(0, 200, 200, 0.3);
+}
+
+/* ── PERFIL Y DROPDOWN ── */
+.admin-navbar-profile {
+  position: relative;
+}
+
+/* Botón del Usuario */
+.admin-navbar-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.35rem 1rem 0.35rem 0.35rem;
+  border-radius: 999px; /* Forma de píldora */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #F0F0F8;
+}
+
+.admin-navbar-profile-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 200, 200, 0.3);
+}
+
+.admin-navbar-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #8B1FD4, #00C8C8) border-box;
+}
+
+.admin-navbar-username {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.admin-navbar-chevron {
+  width: 1rem;
+  height: 1rem;
+  color: rgba(240, 240, 248, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.admin-navbar-chevron.open {
+  transform: rotate(180deg);
+  color: #00C8C8;
+}
+
+/* Menú Desplegable */
+.admin-navbar-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 220px;
+  background: #0A0A14;
+  border: 1px solid rgba(139, 31, 212, 0.3);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: adminNavFadeIn 0.2s ease-out;
+}
+
+@keyframes adminNavFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-navbar-dropdown-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-navbar-dropdown-name {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F0F0F8;
+}
+
+.admin-navbar-dropdown-email {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(240, 240, 248, 0.5);
+}
+
+.admin-navbar-dropdown-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+.admin-navbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: rgba(240, 240, 248, 0.8);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-navbar-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #00C8C8;
+}
+
+/* Botón especial para Cerrar Sesión */
+.admin-navbar-dropdown-item.logout {
+  color: #EF4444;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  margin-top: 0.25rem;
+}
+
+.admin-navbar-dropdown-item.logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.admin-navbar-icon {
+  font-size: 1.1rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .admin-navbar-links {
+    display: none; /* En móviles ocultamos los enlaces (luego se puede agregar un menú hamburguesa) */
+  }
+  
+  .admin-navbar-username,
+  .admin-navbar-chevron {
+    display: none; /* En móviles mostramos solo el avatar */
+  }
+  
+  .admin-navbar-profile-btn {
+    padding: 0.25rem;
+  }
+}

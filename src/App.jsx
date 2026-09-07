@@ -19,6 +19,15 @@ import NotFound from './components/NotFound404';       // Página 404 para enlac
 import Login from './pages/login/Login';
 import Registro from './pages/login/Registro'; // La crearemos pronto
 
+
+
+import PanelAdministrativo from './pages/panelAdmin/PanelAdministrativo'; // La crearemos pronto
+import PanelExpositores from './pages/panelAdmin/PanelExpositores'; // La crearemos pronto
+import PanelNoticias from './pages/noticias/PanelNoticias'; // La crearemos pronto
+import PanelCrearNoticia from './pages/noticias/PanelCrearNoticia'; // La crearemos pronto
+import PanelEntradas from './pages/panelAdmin/PanelEntradas'; // La crearemos pronto
+import PanelExtras from './pages/panelAdmin/PanelExtras'; // La crearemos pronto
+
 // ── IMPORTAR ESTILOS GLOBALES ───────────────────────────────────────────────
 import './index.css'; // Asegúrate de que el nombre coincida con tu archivo CSS global
 
@@ -53,7 +62,14 @@ function App() {
           {/* (Ejemplo) Si decides agregar un login visual de adorno */}
          <Route path="/login" element={<Login />} /> 
           <Route path="/registro" element={<Registro />} />
+          <Route path="/panelAdministrativo" element={<PanelAdministrativo />} />
+          <Route path="/panelAdministrativo/expositores" element={<PanelExpositores />} />
+          <Route path="/panelAdministrativo/noticias" element={<PanelNoticias />} />
+          <Route path="/panelAdministrativo/noticias/crear" element={<PanelCrearNoticia />} />
 
+          <Route path="/panelAdministrativo/entradas" element={<PanelEntradas />} />
+          <Route path="/panelAdministrativo/extras" element={<PanelExtras />} />
+          
           {/* ── ERROR 404 ── */}
           {/* Captura cualquier URL que no exista o páginas que aún no armamos */}
           <Route path="*" element={<NotFound />} />

@@ -1,0 +1,274 @@
+/* =========================================
+   COMPONENTE: CREAR NOTICIA (ADMIN)
+   PREFIJO: panel-crear-noticia-
+   ========================================= */
+
+.panel-crear-noticia-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #04040A;
+  color: #F0F0F8;
+  font-family: 'Inter', sans-serif;
+}
+
+.panel-crear-noticia-main {
+  flex: 1;
+  padding-top: 2rem;
+  padding-bottom: 6rem;
+}
+
+/* Limitamos a 800px para que el formulario de una sola columna no quede gigante en pantallas grandes */
+.panel-crear-noticia-container {
+  max-width: 800px; 
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* Botón Volver */
+.panel-crear-noticia-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(0, 200, 200, 0.7);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.panel-crear-noticia-back-btn:hover {
+  color: #00C8C8;
+  transform: translateX(-4px);
+}
+
+/* ── CABECERA ── */
+.panel-crear-noticia-header {
+  margin-bottom: 2rem;
+}
+
+.panel-crear-noticia-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  color: #F0F0F8;
+}
+
+.panel-crear-noticia-text-cyan {
+  color: #00C8C8;
+}
+
+.panel-crear-noticia-desc {
+  color: rgba(240, 240, 248, 0.6);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Alerta de Éxito */
+.panel-crear-noticia-alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #4ade80;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  animation: panelNoticiaFadeIn 0.3s ease;
+}
+
+@keyframes panelNoticiaFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── FORMULARIO LAYOUT VERTICAL ── */
+.panel-crear-noticia-form {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(139, 31, 212, 0.15);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Espaciado entre campos */
+}
+
+@media (max-width: 600px) {
+  .panel-crear-noticia-form {
+    padding: 1.5rem;
+  }
+}
+
+/* ── INPUTS, SELECTS Y TEXTAREAS ── */
+.panel-crear-noticia-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.panel-crear-noticia-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #A78BFA;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.panel-crear-noticia-input,
+.panel-crear-noticia-textarea,
+.panel-crear-noticia-select {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #F0F0F8;
+  border-radius: 0.75rem;
+  padding: 0.875rem 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.panel-crear-noticia-textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.code-font {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: #00C8C8;
+}
+
+.panel-crear-noticia-input:focus,
+.panel-crear-noticia-textarea:focus,
+.panel-crear-noticia-select:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.5);
+  border-color: #00C8C8;
+  box-shadow: 0 0 0 3px rgba(0, 200, 200, 0.15);
+}
+
+.panel-crear-noticia-hint {
+  font-size: 0.75rem;
+  color: rgba(240, 240, 248, 0.4);
+}
+
+/* Select Personalizado */
+.panel-crear-noticia-select-wrapper {
+  position: relative;
+}
+
+.panel-crear-noticia-select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 2.5rem;
+}
+
+.panel-crear-noticia-select option {
+  background-color: #0A0A14;
+  color: #F0F0F8;
+}
+
+.panel-crear-noticia-select-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(240, 240, 248, 0.5);
+  pointer-events: none;
+}
+
+/* ── PREVIEWS (Imagen e Iframe) ── */
+.panel-crear-noticia-img-preview {
+  margin-top: 1rem;
+  width: 100%;
+  height: 250px; /* Un poco más alto para ver la foto de la noticia bien */
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.3);
+}
+
+.panel-crear-noticia-img-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panel-crear-noticia-iframe-preview-wrapper {
+  margin-top: 1rem;
+  border: 1px solid rgba(139, 31, 212, 0.4);
+  border-radius: 0.75rem;
+  background: #000;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.panel-crear-noticia-preview-bar {
+  background: rgba(139, 31, 212, 0.1);
+  border-top: 1px solid rgba(139, 31, 212, 0.2);
+  padding: 0.5rem 1rem;
+  text-align: center;
+}
+
+.panel-crear-noticia-preview-label {
+  font-size: 0.75rem;
+  color: #C084FC;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.panel-crear-noticia-iframe-render {
+  width: 100%;
+}
+
+.panel-crear-noticia-iframe-render iframe {
+  width: 100% !important;
+  max-height: 400px !important;
+  display: block;
+  border: none;
+}
+
+/* ── ACCIONES BOTÓN ── */
+.panel-crear-noticia-actions {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.panel-crear-noticia-submit-btn {
+  background: linear-gradient(135deg, #8B1FD4, #00C8C8);
+  border: none;
+  color: #FFF;
+  padding: 1.25rem 2.5rem;
+  border-radius: 0.75rem;
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(139, 31, 212, 0.2);
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .panel-crear-noticia-submit-btn {
+    width: auto;
+  }
+}
+
+.panel-crear-noticia-submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 25px rgba(139, 31, 212, 0.4);
+}
