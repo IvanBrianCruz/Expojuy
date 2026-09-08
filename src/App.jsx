@@ -27,6 +27,7 @@ import PanelNoticias from './pages/noticias/PanelNoticias'; // La crearemos pron
 import PanelCrearNoticia from './pages/noticias/PanelCrearNoticia'; // La crearemos pronto
 import PanelEntradas from './pages/panelAdmin/PanelEntradas'; // La crearemos pronto
 import PanelExtras from './pages/panelAdmin/PanelExtras'; // La crearemos pronto
+import Entradas from './pages/inicio/Entradas'; // La crearemos pronto
 
 // ── IMPORTAR ESTILOS GLOBALES ───────────────────────────────────────────────
 import './index.css'; // Asegúrate de que el nombre coincida con tu archivo CSS global
@@ -69,7 +70,7 @@ function App() {
 
           <Route path="/panelAdministrativo/entradas" element={<PanelEntradas />} />
           <Route path="/panelAdministrativo/extras" element={<PanelExtras />} />
-          
+          <Route path="/entradas" element={<Entradas />} />
           {/* ── ERROR 404 ── */}
           {/* Captura cualquier URL que no exista o páginas que aún no armamos */}
           <Route path="*" element={<NotFound />} />

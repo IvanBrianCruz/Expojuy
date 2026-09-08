@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "../assets/css/components/Navbar.css";
+
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -27,30 +30,33 @@ export default function Navbar() {
   return (
     <nav className={`navbar-wrapper ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="navbar-container">
+        
         {/* Logo */}
-        <a href="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           <img
             src="https://i.postimg.cc/258Dq0PV/expojuy26-isologotipo.webp"
             alt="ExpoJuy 2026 Logo"
             className="navbar-logo-img"
           />
-        </a>
+        </Link>
 
         {/* Enlaces Desktop */}
         <div className="navbar-links-desktop">
           {navLinks.map((link) => (
-            <a key={link.label} href={link.href} className="navbar-link-item">
+            <Link key={link.label} to={link.href} className="navbar-link-item">
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
         {/* Botones de Acción Desktop */}
         <div className="navbar-actions-desktop">
-          <button className="navbar-btn-login">
-            <a href="/login">Ingresar</a>
-          </button>
-          <button className="navbar-btn-buy">Comprar Entradas</button>
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <button className="navbar-btn-login">Ingresar</button>
+          </Link>
+          <Link to="/entradas" style={{ textDecoration: 'none' }}>
+            <button className="navbar-btn-buy">Comprar Entradas</button>
+          </Link>
         </div>
 
         {/* Botón Menú Hamburguesa (Mobile) */}
@@ -72,16 +78,30 @@ export default function Navbar() {
       {/* Menú Desplegable (Mobile) */}
       <div className={`navbar-mobile-menu ${isMenuOpen ? "navbar-mobile-open" : ""}`}>
         {navLinks.map((link) => (
-          <a
+          <Link
             key={link.label}
-            href={link.href}
+            to={link.href}
             className="navbar-mobile-link"
             onClick={() => setIsMenuOpen(false)}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
-        <button className="navbar-btn-buy navbar-mobile-btn">Comprar Entradas</button>
+        
+        {/* ── BOTONES FALTANTES AGREGADOS AQUÍ ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1rem' }}>
+          <Link to="/login" style={{ textDecoration: 'none' }} onClick={() => setIsMenuOpen(false)}>
+            <button className="navbar-btn-login navbar-mobile-btn" style={{ width: '100%' }}>
+              Ingresar
+            </button>
+          </Link>
+          <Link to="/entradas" style={{ textDecoration: 'none' }} onClick={() => setIsMenuOpen(false)}>
+            <button className="navbar-btn-buy navbar-mobile-btn" style={{ width: '100%' }}>
+              Comprar Entradas
+            </button>
+          </Link>
+        </div>
+        
       </div>
     </nav>
   );
